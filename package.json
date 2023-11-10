@@ -1,0 +1,29 @@
+{
+  "name": "singer-db",
+  "version": "0.0.1",
+  "description": "Database, based on singly linked list and iterators",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc",
+    "test": "mocha ./js/test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mnemesong/singer-db.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mnemesong/singer-db/issues"
+  },
+  "homepage": "https://github.com/mnemesong/singer-db#readme",
+  "dependencies": {
+    "@types/mocha": "^10.0.4",
+    "@types/node": "<=13.4",
+    "@types/uuid": "^9.0.7",
+    "mocha": "^10.2.0",
+    "typescript": "^4.9.4",
+    "uuid": "^9.0.1"
+  }
+}
