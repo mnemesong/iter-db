@@ -27,7 +27,7 @@ export class ListIter<A> {
     }
 
     public hasNext = (): boolean => {
-        return this.ref.goNext() !== null
+        return !!this.ref.goNext()
     }
 
     public isReaded = () => this.readed

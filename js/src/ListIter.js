@@ -19,7 +19,7 @@ var ListIter = /** @class */ (function () {
             return _this.ref === null;
         };
         this.hasNext = function () {
-            return _this.ref.goNext() !== null;
+            return !!_this.ref.goNext();
         };
         this.isReaded = function () { return _this.readed; };
         this.ref = l;
