@@ -50,4 +50,18 @@ export class ListDb<A> {
             delete this.iters[id]
         }
     }
+
+    public serializeToJson = (): string => {
+        const dataClone = [...this.arr.arr]
+        return JSON.stringify(dataClone)
+    }
+
+    public parseFromJson = (json: string): void => {
+        this.clean()
+        const data = JSON.parse(json)
+        if (!Array.isArray(data)) {
+            throw new Error("parsed data is not array")
+        }
+        this.arr.arr = data
+    }
 }

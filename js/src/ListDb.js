@@ -1,4 +1,13 @@
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ListDb = void 0;
 var ListIter_1 = require("./ListIter");
@@ -34,6 +43,18 @@ var ListDb = /** @class */ (function () {
             if (_this.iters[id]) {
                 delete _this.iters[id];
             }
+        };
+        this.serializeToJson = function () {
+            var dataClone = __spreadArray([], _this.arr.arr, true);
+            return JSON.stringify(dataClone);
+        };
+        this.parseFromJson = function (json) {
+            _this.clean();
+            var data = JSON.parse(json);
+            if (!Array.isArray(data)) {
+                throw new Error("parsed data is not array");
+            }
+            _this.arr.arr = data;
         };
     }
     return ListDb;

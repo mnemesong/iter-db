@@ -8,4 +8,6 @@ export declare class ListDb<A> {
     getCount: () => number;
     getIter: (id: string) => ListIter<A> | undefined;
     dropIter: (id: string) => void;
+    serializeToJson: () => string;
+    parseFromJson: (json: string) => void;
 }
