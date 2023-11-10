@@ -5,5 +5,6 @@ export declare class ListElem<A> {
     constructor(val: A);
     getVal: () => A;
     goNext: () => ListElem<A>;
-    setNext: (l: ListElem<A>) => ListElem<A>;
+    setNext: (l: ListElem<A>, t: number) => ListElem<A>;
+    getTimestamp: () => number;
 }

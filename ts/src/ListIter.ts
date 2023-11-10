@@ -31,4 +31,8 @@ export class ListIter<A> {
     }
 
     public isReaded = () => this.readed
+
+    public timestamp = () => this.ref.getTimestamp()
+
+    public num = () => this.n;
 }

@@ -48,7 +48,7 @@ var assert = __importStar(require("assert"));
         assert.equal(iter.next().read(), 999);
         assert.ok(!iter.hasNext());
     });
-    (0, mocha_1.it)("test scenario 1", function () {
+    (0, mocha_1.it)("test scenario 2", function () {
         var db = (new ListDb_1.ListDb())
             .push(12)
             .push("John Konor")

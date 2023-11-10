@@ -11,8 +11,11 @@ export class ListElem<A> {
 
     public goNext = () => this.next
 
-    public setNext = (l: ListElem<A>): ListElem<A> => {
+    public setNext = (l: ListElem<A>, t: number): ListElem<A> => {
         this.next = l
+        this.timestamp = t
         return this
     }
+
+    public getTimestamp = () => this.timestamp
 }

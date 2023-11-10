@@ -6,10 +6,12 @@ var ListElem = /** @class */ (function () {
         var _this = this;
         this.getVal = function () { return _this.val; };
         this.goNext = function () { return _this.next; };
-        this.setNext = function (l) {
+        this.setNext = function (l, t) {
             _this.next = l;
+            _this.timestamp = t;
             return _this;
         };
+        this.getTimestamp = function () { return _this.timestamp; };
         this.val = val;
     }
     return ListElem;

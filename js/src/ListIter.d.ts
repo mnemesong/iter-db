@@ -9,4 +9,6 @@ export declare class ListIter<A> {
     isFinish: () => boolean;
     hasNext: () => boolean;
     isReaded: () => boolean;
+    timestamp: () => number;
+    num: () => number;
 }

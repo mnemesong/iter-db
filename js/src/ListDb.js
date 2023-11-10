@@ -18,7 +18,9 @@ var ListDb = /** @class */ (function () {
                 _this.cnt = 1;
             }
             else {
-                _this.last = _this.last.setNext(new ListElem_1.ListElem(val)).goNext();
+                _this.last = _this.last
+                    .setNext(new ListElem_1.ListElem(val), Date.now())
+                    .goNext();
                 _this.cnt++;
             }
             return _this;
@@ -44,6 +46,45 @@ var ListDb = /** @class */ (function () {
             return iter;
         };
         this.getCount = function () { return _this.cnt; };
+        this.readIterNext = function (id) {
+            var iter = _this.getIter(id);
+            if (!iter)
+                return { error: "Iter is not exists" };
+            if (iter.isFinish())
+                return { error: "Iter is finished" };
+            if (!iter.isReaded())
+                return {
+                    id: iter.num(),
+                    val: iter.read(),
+                    timestamp: iter.timestamp()
+                };
+            if (iter.hasNext()) {
+                iter = iter.next();
+                return _this.readIterNext(id);
+            }
+            return null;
+        };
+        this.readIterAgain = function (id) {
+            var iter = _this.getIter(id);
+            if (!iter)
+                return { error: "Iter is not exists" };
+            if (iter.isFinish())
+                return { error: "Iter is finished" };
+            return {
+                id: iter.num(),
+                val: iter.read(),
+                timestamp: iter.timestamp()
+            };
+        };
+        this.dropIter = function (id) {
+            var iter = _this.getIter(id);
+            if (!iter)
+                return { error: "Iter is not exists" };
+            if (iter.isFinish())
+                return { error: "Iter is finished" };
+            delete _this.iters[id];
+            return { success: true };
+        };
     }
     return ListDb;
 }());

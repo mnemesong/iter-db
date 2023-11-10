@@ -22,6 +22,8 @@ var ListIter = /** @class */ (function () {
             return !!_this.ref.goNext();
         };
         this.isReaded = function () { return _this.readed; };
+        this.timestamp = function () { return _this.ref.getTimestamp(); };
+        this.num = function () { return _this.n; };
         this.ref = l;
         this.n = Math.round(n);
     }

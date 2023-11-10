@@ -25,7 +25,7 @@ describe("test ListDb", () => {
         assert.ok(!iter.hasNext())
     })
 
-    it("test scenario 1", () => {
+    it("test scenario 2", () => {
         const db: ListDb<any> = (new ListDb())
             .push(12)
             .push("John Konor")
