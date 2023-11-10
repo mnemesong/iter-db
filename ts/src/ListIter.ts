@@ -1,38 +1,34 @@
-import { ListElem } from "./ListElem"
+type arr<A> = { arr: A[] }
 
 export class ListIter<A> {
-    private ref: ListElem<A> | null
+    private arr: arr<A>
     private n: number
     private readed: boolean = false
 
-    public constructor(l: ListElem<A> | null, n: number) {
-        this.ref = l
+    public constructor(arr: arr<A> | null, n: number) {
+        this.arr = arr
         this.n = Math.round(n)
     }
 
-    public read = (): A => {
-        this.readed = true
-        return this.ref.getVal()
+    public read = (): A | undefined => {
+        if (!this.isFinish()) {
+            this.readed = true
+            return this.arr.arr[this.n]
+        }
+        return undefined
     }
 
     public next = (): ListIter<A> => {
-        this.ref = this.ref.goNext()
         this.n++
         this.readed = false
         return this
     }
 
     public isFinish = (): boolean => {
-        return this.ref === null
-    }
-
-    public hasNext = (): boolean => {
-        return !!this.ref.goNext()
+        return this.n >= this.arr.arr.length
     }
 
     public isReaded = () => this.readed
-
-    public timestamp = () => this.ref.getTimestamp()
 
     public num = () => this.n;
 }

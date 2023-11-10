@@ -1,14 +1,15 @@
-import { ListElem } from "./ListElem";
+type arr<A> = {
+    arr: A[];
+};
 export declare class ListIter<A> {
-    private ref;
+    private arr;
     private n;
     private readed;
-    constructor(l: ListElem<A> | null, n: number);
-    read: () => A;
+    constructor(arr: arr<A> | null, n: number);
+    read: () => A | undefined;
     next: () => ListIter<A>;
     isFinish: () => boolean;
-    hasNext: () => boolean;
     isReaded: () => boolean;
-    timestamp: () => number;
     num: () => number;
 }
+export {};
