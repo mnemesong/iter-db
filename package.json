@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
-    "test": "mocha ./js/test"
+    "test": "mocha ./js/test",
+    "run:http": "node ./js/src/ListDbHttp"
   },
   "repository": {
     "type": "git",
