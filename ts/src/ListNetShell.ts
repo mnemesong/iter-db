@@ -1,51 +1,11 @@
-import { serialize } from "v8"
 import { ListDb } from "./ListDb"
 import * as fs from "fs"
-
-export type reqIter = {
-    iter: string,
-    req: { batchNew: number } | { oneNew: true } | { again: true }
-}
-
-export type body = {
-    authToken: string,
-    req: reqIter,
-} | {
-    authToken: string,
-    set: any
-} | {
-    authToken: string,
-    reg: true
-}
-
-export type resp<A> = {
-    error: "Invalid auth data"
-} | {
-    error: "Iter is not exists"
-} | {
-    error: "Invalid format of request"
-} | {
-    error: "Unexcepted error"
-    details: string
-} | {
-    iter: string
-} | {
-    id: number
-} | {
-    vals: Array<{
-        id: number
-        val: any
-    }>
-} | {
-    val: {
-        id: number
-        val: any
-    } | null
-}
+import * as listReq from "./ListNewReq"
+import * as listResp from "./ListResp"
 
 export type NetMessage = {
-    getBody: () => body
-    sendResponse: (a: any) => void
+    getBody: () => listReq.RegBody
+    sendResponse: (a: listResp.ListResp) => void
 }
 
 export class ListNetShell {
@@ -81,7 +41,7 @@ export class ListNetShell {
                 return
             }
             if (body["req"]) {
-                const req: reqIter = body["req"]
+                const req: listReq.RegIter = body["req"]
                 if ((!req.req) || (!req.iter)) {
                     msg.sendResponse({ error: "Invalid format of request" })
                     return
