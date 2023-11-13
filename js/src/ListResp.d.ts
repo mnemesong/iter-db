@@ -1,9 +1,9 @@
 import { Infer } from "superstruct";
 export declare const listRespErrorStruct: import("superstruct").Struct<{
-    error: "Iter is not exists" | "Invalid auth data" | "Invalid format of request" | "Unexcepted error";
+    error: "Invalid auth data" | "Iter is not exists" | "Invalid format of request" | "Unexcepted error";
     details?: any;
 }, {
-    error: import("superstruct").Struct<"Iter is not exists" | "Invalid auth data" | "Invalid format of request" | "Unexcepted error", null>;
+    error: import("superstruct").Struct<"Invalid auth data" | "Iter is not exists" | "Invalid format of request" | "Unexcepted error", null>;
     details: import("superstruct").Struct<any, null>;
 }>;
 export type ListRespError = Infer<typeof listRespErrorStruct>;
@@ -53,7 +53,7 @@ export declare const listRespValStruct: import("superstruct").Struct<{
 }>;
 export type ListRespVal = Infer<typeof listRespValStruct>;
 export declare const listRespStruct: import("superstruct").Struct<{
-    error: "Iter is not exists" | "Invalid auth data" | "Invalid format of request" | "Unexcepted error";
+    error: "Invalid auth data" | "Iter is not exists" | "Invalid format of request" | "Unexcepted error";
     details?: any;
 } | {
     iter: string;

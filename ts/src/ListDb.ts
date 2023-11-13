@@ -1,18 +1,7 @@
 import { ListIter } from "./ListIter";
 import { v4 as uuid } from "uuid";
 
-type arr<A> = { arr: A[] }
-
-type iterResult<R> = R | {
-    error: "Iter is not exists"
-} | {
-    error: "Iter is finished"
-}
-
-type readIterResult<A> = iterResult<{
-    id: number,
-    val: A,
-}>
+export type arr<A> = { arr: A[] }
 
 export class ListDb<A> {
     private iters: Record<string, ListIter<A>> = {}

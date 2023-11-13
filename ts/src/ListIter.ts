@@ -1,10 +1,5 @@
 type arr<A> = { arr: A[] }
 
-type getResult<A> = {
-    id: number,
-    val: A
-}
-
 export class ListIter<A> {
     private arr: arr<A>
     private n: number

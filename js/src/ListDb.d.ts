@@ -1,4 +1,7 @@
 import { ListIter } from "./ListIter";
+export type arr<A> = {
+    arr: A[];
+};
 export declare class ListDb<A> {
     private iters;
     private arr;

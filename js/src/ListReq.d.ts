@@ -1,5 +1,5 @@
 import { Infer } from "superstruct";
-export declare const regIterStruct: import("superstruct").Struct<{
+export declare const reqIterStruct: import("superstruct").Struct<{
     iter: string;
     req: {
         batchNew: number;
@@ -18,8 +18,8 @@ export declare const regIterStruct: import("superstruct").Struct<{
         again: true;
     }, null>;
 }>;
-export type RegIter = Infer<typeof regIterStruct>;
-export declare const regBodyStruct: import("superstruct").Struct<{
+export type ReqIter = Infer<typeof reqIterStruct>;
+export declare const reqBodyStruct: import("superstruct").Struct<{
     req: {
         iter: string;
         req: {
@@ -38,4 +38,4 @@ export declare const regBodyStruct: import("superstruct").Struct<{
     authToken: string;
     reg: true;
 }, null>;
-export type RegBody = Infer<typeof regBodyStruct>;
+export type ReqBody = Infer<typeof reqBodyStruct>;

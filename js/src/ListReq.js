@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.regBodyStruct = exports.regIterStruct = void 0;
+exports.reqBodyStruct = exports.reqIterStruct = void 0;
 var superstruct_1 = require("superstruct");
-exports.regIterStruct = (0, superstruct_1.object)({
+exports.reqIterStruct = (0, superstruct_1.object)({
     iter: (0, superstruct_1.string)(),
     req: (0, superstruct_1.union)([
         (0, superstruct_1.object)({ batchNew: (0, superstruct_1.number)() }),
@@ -10,10 +10,10 @@ exports.regIterStruct = (0, superstruct_1.object)({
         (0, superstruct_1.object)({ again: (0, superstruct_1.literal)(true) })
     ])
 });
-exports.regBodyStruct = (0, superstruct_1.union)([
+exports.reqBodyStruct = (0, superstruct_1.union)([
     (0, superstruct_1.object)({
         authToken: (0, superstruct_1.string)(),
-        req: exports.regIterStruct
+        req: exports.reqIterStruct
     }),
     (0, superstruct_1.object)({
         authToken: (0, superstruct_1.string)(),

@@ -24,28 +24,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var mocha_1 = require("mocha");
-var ListNetShell_1 = require("../src/ListNetShell");
+var ListDbShell_1 = require("../src/ListDbShell");
 var ListDb_1 = require("../src/ListDb");
 var assert = __importStar(require("assert"));
-var NetMessageMock = /** @class */ (function () {
-    function NetMessageMock(body) {
-        var _this = this;
-        this.resp = undefined;
-        this.getBody = function () { return _this.body; };
-        this.sendResponse = function (a) {
-            _this.resp = a;
-        };
-        this.getResponse = function () { return _this.resp; };
-        this.body = body;
-    }
-    return NetMessageMock;
-}());
-(0, mocha_1.describe)("test ListNetShell", function () {
+var ListDbMessage_1 = require("../src/ListDbMessage");
+(0, mocha_1.describe)("test ListDbShell", function () {
     (0, mocha_1.describe)("test auth data check", function () {
         (0, mocha_1.it)("test invalid auth", function () {
             var db = new ListDb_1.ListDb();
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg = new NetMessageMock({ authToken: "21c41241", set: 721637821 });
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg = new ListDbMessage_1.ListDbMessage({ authToken: "21c41241", set: 721637821 });
             shell.handleMessage(msg);
             assert.deepEqual(msg.getResponse(), {
                 error: "Invalid auth data"
@@ -54,8 +42,8 @@ var NetMessageMock = /** @class */ (function () {
         });
         (0, mocha_1.it)("test valid auth", function () {
             var db = new ListDb_1.ListDb();
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg = new NetMessageMock({ authToken: "da7s8gdf", set: 721637821 });
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg = new ListDbMessage_1.ListDbMessage({ authToken: "da7s8gdf", set: 721637821 });
             shell.handleMessage(msg);
             assert.deepEqual(msg.getResponse(), {
                 id: 0
@@ -66,8 +54,8 @@ var NetMessageMock = /** @class */ (function () {
     (0, mocha_1.describe)("test format of request check", function () {
         (0, mocha_1.it)("test invalid format 1", function () {
             var db = new ListDb_1.ListDb();
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg = new NetMessageMock({ authToken: "da7s8gdf", get: 721637821 });
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg = new ListDbMessage_1.ListDbMessage({ authToken: "da7s8gdf", get: 721637821 });
             shell.handleMessage(msg);
             assert.deepEqual(msg.getResponse(), {
                 error: "Invalid format of request"
@@ -76,8 +64,8 @@ var NetMessageMock = /** @class */ (function () {
         });
         (0, mocha_1.it)("test invalid format 2", function () {
             var db = new ListDb_1.ListDb();
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg = new NetMessageMock({ authToken: "da7s8gdf", req: { faksf: null } });
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg = new ListDbMessage_1.ListDbMessage({ authToken: "da7s8gdf", req: { faksf: null } });
             shell.handleMessage(msg);
             assert.deepEqual(msg.getResponse(), {
                 error: "Invalid format of request"
@@ -86,8 +74,8 @@ var NetMessageMock = /** @class */ (function () {
         });
         (0, mocha_1.it)("test valid format", function () {
             var db = new ListDb_1.ListDb();
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg = new NetMessageMock({ authToken: "da7s8gdf", set: 721637821 });
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg = new ListDbMessage_1.ListDbMessage({ authToken: "da7s8gdf", set: 721637821 });
             shell.handleMessage(msg);
             assert.deepEqual(msg.getResponse(), {
                 id: 0
@@ -101,8 +89,8 @@ var NetMessageMock = /** @class */ (function () {
             db.push({ v: 1234 });
             db.push({ v: 74812 });
             var iterId = db.regIter();
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg = new NetMessageMock({
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: "iterId", req: { oneNew: true } }
             });
@@ -117,8 +105,8 @@ var NetMessageMock = /** @class */ (function () {
             db.push({ v: 1234 });
             db.push({ v: 74812 });
             var iterId = db.regIter();
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg = new NetMessageMock({
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { oneNew: true } }
             });
@@ -140,8 +128,8 @@ var NetMessageMock = /** @class */ (function () {
             db.push({ v: 8619312 });
             db.push({ v: 412 });
             var iterId = db.regIter();
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg1 = new NetMessageMock({
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg1 = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { batchNew: 3 } }
             });
@@ -162,7 +150,7 @@ var NetMessageMock = /** @class */ (function () {
                     }
                 ]
             });
-            var msg2 = new NetMessageMock({
+            var msg2 = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { batchNew: 3 } }
             });
@@ -175,7 +163,7 @@ var NetMessageMock = /** @class */ (function () {
                     },
                 ]
             });
-            var msg3 = new NetMessageMock({
+            var msg3 = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { batchNew: 3 } }
             });
@@ -192,8 +180,8 @@ var NetMessageMock = /** @class */ (function () {
             db.push({ v: 1234 });
             db.push({ v: 74812 });
             var iterId = db.regIter();
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg1 = new NetMessageMock({
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg1 = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { again: true } }
             });
@@ -204,7 +192,7 @@ var NetMessageMock = /** @class */ (function () {
                     val: { v: 1234 }
                 }
             });
-            var msg2 = new NetMessageMock({
+            var msg2 = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { again: true } }
             });
@@ -223,23 +211,23 @@ var NetMessageMock = /** @class */ (function () {
             var db = new ListDb_1.ListDb();
             db.push({ v: 1234 });
             db.push({ v: 74812 });
-            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
-            var msg1 = new NetMessageMock({
+            var shell = new ListDbShell_1.ListDbShell(db, { token: "da7s8gdf" });
+            var msg1 = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 reg: true
             });
             shell.handleMessage(msg1);
-            var iter1 = msg1.getResponse().iter;
+            var iter1 = msg1.getResponse()["iter"];
             assert.ok(typeof iter1 === "string");
-            var msg2 = new NetMessageMock({
+            var msg2 = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 reg: true
             });
             shell.handleMessage(msg2);
-            var iter2 = msg2.getResponse().iter;
+            var iter2 = msg2.getResponse()["iter"];
             assert.ok(typeof iter2 === "string");
             assert.notEqual(iter1, iter2);
-            var msg3 = new NetMessageMock({
+            var msg3 = new ListDbMessage_1.ListDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iter2, req: { oneNew: true } }
             });

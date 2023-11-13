@@ -1,6 +1,6 @@
 import { Infer, any, literal, number, object, string, union } from "superstruct";
 
-export const regIterStruct = object({
+export const reqIterStruct = object({
     iter: string(),
     req: union([
         object({ batchNew: number() }),
@@ -9,12 +9,12 @@ export const regIterStruct = object({
     ])
 })
 
-export type RegIter = Infer<typeof regIterStruct>
+export type ReqIter = Infer<typeof reqIterStruct>
 
-export const regBodyStruct = union([
+export const reqBodyStruct = union([
     object({
         authToken: string(),
-        req: regIterStruct
+        req: reqIterStruct
     }),
     object({
         authToken: string(),
@@ -26,4 +26,4 @@ export const regBodyStruct = union([
     })
 ])
 
-export type RegBody = Infer<typeof regBodyStruct>
+export type ReqBody = Infer<typeof reqBodyStruct>

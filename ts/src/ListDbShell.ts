@@ -1,47 +1,68 @@
 import { ListDb } from "./ListDb"
 import * as fs from "fs"
-import * as listReq from "./ListNewReq"
-import * as listResp from "./ListResp"
+import * as listReq from "./ListReq"
+import { ListDbMessage } from "./ListDbMessage"
 
-export type NetMessage = {
-    getBody: () => listReq.RegBody
-    sendResponse: (a: listResp.ListResp) => void
+export type ListDbShellConfig = {
+    token: string,
+    filepath?: string | null,
+    fileDelay?: number
+    unref?: boolean
 }
 
-export class ListNetShell {
+export class ListDbShell {
     private db: ListDb<any>
     private token: string
     private filePath: string | null
     private timer: NodeJS.Timeout | null = null
     private isWriting: boolean = false
+    private fileWriteDelay: number
+    private unref: boolean
 
-    public constructor(db: ListDb<any>, token: string, filepath: string | null = null) {
+    public constructor(
+        db: ListDb<any>,
+        config?: ListDbShellConfig
+    ) {
         this.db = db
-        this.token = token
+        this.token = config.token
+        this.filePath = (!!config && config.filepath) ? config.filepath : null
+        this.fileWriteDelay = (!!config && config.fileDelay) ? config.fileDelay : 3000
+        this.unref = (!!config && config.unref) ? config.unref : false
         if (this.filePath) {
-            const data = fs.readFileSync(filepath).toString()
+            if (!fs.existsSync(this.filePath)) {
+                fs.writeFileSync(this.filePath, "[]")
+            }
+            const data = fs.readFileSync(this.filePath).toString()
             db.parseFromJson(data)
             this.timer = setInterval(() => {
                 if (!this.isWriting) {
                     this.isWriting = true;
-                    fs.writeFileSync(filepath, db.serializeToJson())
+                    fs.writeFileSync(this.filePath, db.serializeToJson())
                     this.isWriting = false;
                 }
-            }, 3000)
+            }, this.fileWriteDelay)
+            if (this.unref) {
+                this.timer.unref()
+            }
         }
     }
 
     private checkAuth = (token: string): boolean => token === this.token
 
-    public handleMessage = (msg: NetMessage): void => {
+    public handleMessage = (msg: ListDbMessage): void => {
         try {
             const body = msg.getBody()
+            if (!body) {
+                msg.sendResponse({
+                    error: "Invalid format of request"
+                })
+            }
             if (!this.checkAuth(body.authToken)) {
                 msg.sendResponse({ error: "Invalid auth data" })
                 return
             }
             if (body["req"]) {
-                const req: listReq.RegIter = body["req"]
+                const req: listReq.ReqIter = body["req"]
                 if ((!req.req) || (!req.iter)) {
                     msg.sendResponse({ error: "Invalid format of request" })
                     return

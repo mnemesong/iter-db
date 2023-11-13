@@ -23,11 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ListNetShell = void 0;
+exports.ListDbShell = void 0;
 var fs = __importStar(require("fs"));
-var ListNetShell = /** @class */ (function () {
-    function ListNetShell(db, token, filepath) {
-        if (filepath === void 0) { filepath = null; }
+var ListDbShell = /** @class */ (function () {
+    function ListDbShell(db, config) {
         var _this = this;
         this.timer = null;
         this.isWriting = false;
@@ -35,6 +34,11 @@ var ListNetShell = /** @class */ (function () {
         this.handleMessage = function (msg) {
             try {
                 var body = msg.getBody();
+                if (!body) {
+                    msg.sendResponse({
+                        error: "Invalid format of request"
+                    });
+                }
                 if (!_this.checkAuth(body.authToken)) {
                     msg.sendResponse({ error: "Invalid auth data" });
                     return;
@@ -110,19 +114,28 @@ var ListNetShell = /** @class */ (function () {
             }
         };
         this.db = db;
-        this.token = token;
+        this.token = config.token;
+        this.filePath = (!!config && config.filepath) ? config.filepath : null;
+        this.fileWriteDelay = (!!config && config.fileDelay) ? config.fileDelay : 3000;
+        this.unref = (!!config && config.unref) ? config.unref : false;
         if (this.filePath) {
-            var data = fs.readFileSync(filepath).toString();
+            if (!fs.existsSync(this.filePath)) {
+                fs.writeFileSync(this.filePath, "[]");
+            }
+            var data = fs.readFileSync(this.filePath).toString();
             db.parseFromJson(data);
             this.timer = setInterval(function () {
                 if (!_this.isWriting) {
                     _this.isWriting = true;
-                    fs.writeFileSync(filepath, db.serializeToJson());
+                    fs.writeFileSync(_this.filePath, db.serializeToJson());
                     _this.isWriting = false;
                 }
-            }, 3000);
+            }, this.fileWriteDelay);
+            if (this.unref) {
+                this.timer.unref();
+            }
         }
     }
-    return ListNetShell;
+    return ListDbShell;
 }());
-exports.ListNetShell = ListNetShell;
+exports.ListDbShell = ListDbShell;

@@ -2,7 +2,7 @@
   "name": "list-db",
   "version": "0.0.1",
   "description": "Database, based on singly linked list and iterators",
-  "main": "index.js",
+  "main": "js/src/index.js",
   "scripts": {
     "tsc": "tsc",
     "test:unit": "mocha ./js/test",
@@ -24,7 +24,7 @@
     "@types/node": "<=13.4",
     "@types/uuid": "^9.0.7",
     "mocha": "^10.2.0",
-    "superstruct": "^1.0.3",
+    "superstruct": "^0.13.0",
     "typescript": "^4.9.4",
     "uuid": "^9.0.1"
   }
