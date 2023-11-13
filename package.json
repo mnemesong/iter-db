@@ -1,6 +1,6 @@
 {
   "name": "iter-db",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Database, based on singly linked list and iterators",
   "main": "js/src/index.js",
   "scripts": {
@@ -20,13 +20,13 @@
   },
   "homepage": "https://github.com/mnemesong/iter-db#readme",
   "devDependencies": {
-    "@types/mocha": "^10.0.4",
+    "@types/mocha": "^9.1.1",
     "@types/node": "<=13.4",
     "@types/uuid": "^9.0.7",
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "mocha": "^10.2.0",
+    "mocha": "<=9.2.2",
     "superstruct": "^0.13.0",
     "uuid": "^9.0.1"
   }
