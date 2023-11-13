@@ -1,10 +1,10 @@
-import { ListIter } from "./ListIter";
+import { IterIter } from "./IterIter";
 import { v4 as uuid } from "uuid";
 
 export type arr<A> = { arr: A[] }
 
-export class ListDb<A> {
-    private iters: Record<string, ListIter<A>> = {}
+export class IterDb<A> {
+    private iters: Record<string, IterIter<A>> = {}
     private arr: arr<A> = { arr: [] }
 
     public push = (val: A): number => {
@@ -21,13 +21,13 @@ export class ListDb<A> {
 
     public regIter = (): string => {
         const id = uuid()
-        this.iters[id] = new ListIter(this.arr, 0)
+        this.iters[id] = new IterIter(this.arr, 0)
         return id
     }
 
     public getCount = () => this.arr.arr.length
 
-    public getIter = (id: string): ListIter<A> | undefined => {
+    public getIter = (id: string): IterIter<A> | undefined => {
         if (this.iters[id]) {
             return this.iters[id]
         }

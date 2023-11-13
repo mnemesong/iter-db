@@ -1,6 +1,6 @@
 type arr<A> = { arr: A[] }
 
-export class ListIter<A> {
+export class IterIter<A> {
     private arr: arr<A>
     private n: number
     private readed: boolean = false
@@ -18,7 +18,7 @@ export class ListIter<A> {
         return undefined
     }
 
-    public next = (): ListIter<A> => {
+    public next = (): IterIter<A> => {
         this.n++
         this.readed = false
         return this

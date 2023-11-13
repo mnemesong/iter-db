@@ -1,4 +1,4 @@
-# list-db
+# iter-db
 Database, based on singly linked list and iterators
 Contains:
 - im-memory database class with iterators support
@@ -10,12 +10,12 @@ see also packages:
 - list-db-connector //implementation of connector with functional api
 
 
-## ListDb
+## IterDb
 It is in-memory database thats may contents elems and iterator
 ```typescript
-import { ListDb } form "list-db"
+import { IterDb } form "list-db"
 //Example of usage
-const db: ListDb<any> = (new ListDb()) //empty db
+const db: IterDb<any> = (new IterDb()) //empty db
 const id = db.push(12) //id = 0 - index of new elem
 db.push("John Konor") //id = 1 ...
 db.push([false, true, false])
@@ -35,19 +35,19 @@ iter.next().next().read() // = 999 . Iterator now on 4-th  element and its reade
 ```
 
 
-## ListDbShell
+## IterDbShell
 class of shell, thats implements periodical autosave data as json, loading from file and messaging
 Use it as template for server-making based on db
 ```typescript
-import { ListDb, ListDbShell } form "list-db"
+import { IterDb, IterDbShell } form "list-db"
 import * as path from "path"
 import * as fs from "fs"
 
-const db = new ListDb()
+const db = new IterDb()
 const filepath = path
     .resolve((module as unknown as { path: string }).path, "..", "..", "test.json")
 
-const shell = new ListDbShell(db, {
+const shell = new IterDbShell(db, {
     token: "7gx1827b", //Auth token
     filepath: filepath, //file to load and store data
     unref: true, //is unref imterval-timer thats rewrite file 
@@ -56,7 +56,7 @@ const shell = new ListDbShell(db, {
 })
 
 //message handling. See full list of messages in next paragraph
-shell.handleMessage(new ListDbMessage({
+shell.handleMessage(new IterDbMessage({
     authToken: "7gx1827b",
     set: { v: 216318729 }
 }))
@@ -64,9 +64,9 @@ shell.handleMessage(new ListDbMessage({
 
 #### All request message types
 ```typescript
-//file listDb.listReq
+//file IterDb.listReq
 //also contains superstruct declaration
-type ReqBody = { //request data
+type ReqIterBody = { //request data
     authToken: string;
     req: {
         iter: string;
@@ -89,9 +89,9 @@ type ReqBody = { //request data
 
 #### All response message types
 ```typescript
-//file listDb.listResp
+//file IterDb.listResp
 //also contains superstruct declaration
-type ListResp = { //error responses
+type IterResp = { //error responses
     error: "Invalid auth data" | "Iter is not exists" | "Invalid format of request" | "Unexcepted error";
     details?: any;
 } | { //response on iter request
@@ -115,12 +115,12 @@ type ListResp = { //error responses
 
 ## Index file overview
 ```typescript
-export { arr, ListDb } from "./ListDb"
-export { ListDbMessage } from "./ListDbMessage"
-export { ListIter } from "./ListIter"
-export { ListDbShellConfig, ListDbShell } from "./ListDbShell"
-export * as listReq from "./ListReq"
-export * as listResp from "./ListResp"
+export { arr, IterDb as ListDb } from "./IterDb"
+export { IterDbMessage as ListDbMessage } from "./IterDbMessage"
+export { IterIter as ListIter } from "./IterIter"
+export { IterDbShellConfig as ListDbShellConfig, IterDbShell as ListDbShell } from "./IterDbShell"
+export * as iterReq from "./IterReq"
+export * as iterResp from "./IterResp"
 ```
 
 

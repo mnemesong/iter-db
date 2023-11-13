@@ -1,10 +1,10 @@
 import { describe, it } from "mocha";
-import { ListDb } from "../src/ListDb";
+import { IterDb } from "../src/IterDb";
 import * as assert from "assert"
 
 describe("test ListDb", () => {
     it("test scenario 1", () => {
-        const db: ListDb<any> = (new ListDb())
+        const db: IterDb<any> = (new IterDb())
         db.push(12)
         db.push("John Konor")
         db.push([false, true, false])
@@ -27,7 +27,7 @@ describe("test ListDb", () => {
     })
 
     it("test scenario 2", () => {
-        const db: ListDb<any> = (new ListDb())
+        const db: IterDb<any> = (new IterDb())
         let id = db.push(12)
         assert.equal(id, 0)
         db.push("John Konor")
@@ -53,7 +53,7 @@ describe("test ListDb", () => {
     })
 
     it("test scenario 3", () => {
-        const db: ListDb<any> = (new ListDb())
+        const db: IterDb<any> = (new IterDb())
         const id = db.push(12)
         db.push("John Konor")
         db.push([false, true, false])

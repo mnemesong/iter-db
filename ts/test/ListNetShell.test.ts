@@ -1,15 +1,15 @@
 import { describe, it } from "mocha";
-import { ListDbShell } from "../src/ListDbShell"
-import { ListDb } from "../src/ListDb";
+import { IterDbShell } from "../src/IterDbShell"
+import { IterDb } from "../src/IterDb";
 import * as assert from "assert"
-import { ListDbMessage } from "../src/ListDbMessage";
+import { IterDbMessage } from "../src/IterDbMessage";
 
 describe("test ListDbShell", () => {
     describe("test auth data check", () => {
         it("test invalid auth", () => {
-            let db = new ListDb()
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg = new ListDbMessage({ authToken: "21c41241", set: 721637821 })
+            let db = new IterDb()
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg = new IterDbMessage({ authToken: "21c41241", set: 721637821 })
             shell.handleMessage(msg)
             assert.deepEqual(msg.getResponse(), {
                 error: "Invalid auth data"
@@ -18,9 +18,9 @@ describe("test ListDbShell", () => {
         })
 
         it("test valid auth", () => {
-            let db = new ListDb()
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg = new ListDbMessage({ authToken: "da7s8gdf", set: 721637821 })
+            let db = new IterDb()
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg = new IterDbMessage({ authToken: "da7s8gdf", set: 721637821 })
             shell.handleMessage(msg)
             assert.deepEqual(msg.getResponse(), {
                 id: 0
@@ -31,9 +31,9 @@ describe("test ListDbShell", () => {
 
     describe("test format of request check", () => {
         it("test invalid format 1", () => {
-            let db = new ListDb()
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg = new ListDbMessage({ authToken: "da7s8gdf", get: 721637821 })
+            let db = new IterDb()
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg = new IterDbMessage({ authToken: "da7s8gdf", get: 721637821 })
             shell.handleMessage(msg)
             assert.deepEqual(msg.getResponse(), {
                 error: "Invalid format of request"
@@ -42,9 +42,9 @@ describe("test ListDbShell", () => {
         })
 
         it("test invalid format 2", () => {
-            let db = new ListDb()
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg = new ListDbMessage({ authToken: "da7s8gdf", req: { faksf: null } })
+            let db = new IterDb()
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg = new IterDbMessage({ authToken: "da7s8gdf", req: { faksf: null } })
             shell.handleMessage(msg)
             assert.deepEqual(msg.getResponse(), {
                 error: "Invalid format of request"
@@ -53,9 +53,9 @@ describe("test ListDbShell", () => {
         })
 
         it("test valid format", () => {
-            let db = new ListDb()
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg = new ListDbMessage({ authToken: "da7s8gdf", set: 721637821 })
+            let db = new IterDb()
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg = new IterDbMessage({ authToken: "da7s8gdf", set: 721637821 })
             shell.handleMessage(msg)
             assert.deepEqual(msg.getResponse(), {
                 id: 0
@@ -66,12 +66,12 @@ describe("test ListDbShell", () => {
 
     describe("test invalid iter", () => {
         it("test invalid iter", () => {
-            let db = new ListDb()
+            let db = new IterDb()
             db.push({ v: 1234 })
             db.push({ v: 74812 })
             let iterId = db.regIter()
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg = new ListDbMessage({
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg = new IterDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: "iterId", req: { oneNew: true } }
             })
@@ -83,12 +83,12 @@ describe("test ListDbShell", () => {
         })
 
         it("test valid iter", () => {
-            let db = new ListDb()
+            let db = new IterDb()
             db.push({ v: 1234 })
             db.push({ v: 74812 })
             let iterId = db.regIter()
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg = new ListDbMessage({
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg = new IterDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { oneNew: true } }
             })
@@ -105,14 +105,14 @@ describe("test ListDbShell", () => {
 
     describe("test batchNew", () => {
         it("test 1", () => {
-            let db = new ListDb()
+            let db = new IterDb()
             db.push({ v: 1234 })
             db.push({ v: 74812 })
             db.push({ v: 8619312 })
             db.push({ v: 412 })
             let iterId = db.regIter()
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg1 = new ListDbMessage({
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg1 = new IterDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { batchNew: 3 } }
             })
@@ -133,7 +133,7 @@ describe("test ListDbShell", () => {
                     }
                 ]
             })
-            let msg2 = new ListDbMessage({
+            let msg2 = new IterDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { batchNew: 3 } }
             })
@@ -146,7 +146,7 @@ describe("test ListDbShell", () => {
                     },
                 ]
             })
-            let msg3 = new ListDbMessage({
+            let msg3 = new IterDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { batchNew: 3 } }
             })
@@ -161,12 +161,12 @@ describe("test ListDbShell", () => {
 
     describe("test again", () => {
         it("test valid iter", () => {
-            let db = new ListDb()
+            let db = new IterDb()
             db.push({ v: 1234 })
             db.push({ v: 74812 })
             let iterId = db.regIter()
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg1 = new ListDbMessage({
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg1 = new IterDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { again: true } }
             })
@@ -177,7 +177,7 @@ describe("test ListDbShell", () => {
                     val: { v: 1234 }
                 }
             })
-            let msg2 = new ListDbMessage({
+            let msg2 = new IterDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iterId, req: { again: true } }
             })
@@ -194,18 +194,18 @@ describe("test ListDbShell", () => {
 
     describe("test reg", () => {
         it("reg", () => {
-            let db = new ListDb()
+            let db = new IterDb()
             db.push({ v: 1234 })
             db.push({ v: 74812 })
-            let shell = new ListDbShell(db, { token: "da7s8gdf" })
-            let msg1 = new ListDbMessage({
+            let shell = new IterDbShell(db, { token: "da7s8gdf" })
+            let msg1 = new IterDbMessage({
                 authToken: "da7s8gdf",
                 reg: true
             })
             shell.handleMessage(msg1)
             const iter1 = msg1.getResponse()["iter"]
             assert.ok(typeof iter1 === "string")
-            let msg2 = new ListDbMessage({
+            let msg2 = new IterDbMessage({
                 authToken: "da7s8gdf",
                 reg: true
             })
@@ -213,7 +213,7 @@ describe("test ListDbShell", () => {
             const iter2 = msg2.getResponse()["iter"]
             assert.ok(typeof iter2 === "string")
             assert.notEqual(iter1, iter2)
-            let msg3 = new ListDbMessage({
+            let msg3 = new IterDbMessage({
                 authToken: "da7s8gdf",
                 req: { iter: iter2, req: { oneNew: true } }
             })

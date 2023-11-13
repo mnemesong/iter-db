@@ -1,12 +1,12 @@
-import { ReqBody, reqBodyStruct } from "./ListReq";
-import { ListResp, listRespStruct } from "./ListResp";
+import { ReqIterBody, reqIterBodyStruct } from "./IterReq";
+import { IterResp, iterRespStruct } from "./IterResp";
 
-export class ListDbMessage {
-    private body: ReqBody | null
-    private resp: ListResp | null = null
+export class IterDbMessage {
+    private body: ReqIterBody | null
+    private resp: IterResp | null = null
 
     constructor(body: any) {
-        if (!reqBodyStruct.is(body)) {
+        if (!reqIterBodyStruct.is(body)) {
             this.body = null
             this.resp = {
                 error: "Invalid format of request"
@@ -15,10 +15,10 @@ export class ListDbMessage {
         this.body = body
     }
 
-    public getBody = (): ReqBody => this.body
+    public getBody = (): ReqIterBody => this.body
 
-    sendResponse = (a: ListResp): void => {
-        if (!listRespStruct.is(a)) {
+    sendResponse = (a: IterResp): void => {
+        if (!iterRespStruct.is(a)) {
             this.resp = {
                 error: "Unexcepted error",
                 details: "Invalid format of response: " + JSON.stringify(a)
@@ -28,7 +28,7 @@ export class ListDbMessage {
         this.resp = a
     }
 
-    getResponse = (): ListResp => {
+    getResponse = (): IterResp => {
         if (this.resp === null) {
             throw new Error("No response")
         }

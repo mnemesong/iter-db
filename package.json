@@ -1,5 +1,5 @@
 {
-  "name": "list-db",
+  "name": "singer-db",
   "version": "0.0.1",
   "description": "Database, based on singly linked list and iterators",
   "main": "js/src/index.js",

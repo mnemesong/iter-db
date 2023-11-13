@@ -1,17 +1,17 @@
-import { ListDb } from "./ListDb"
+import { IterDb } from "./IterDb"
 import * as fs from "fs"
-import * as listReq from "./ListReq"
-import { ListDbMessage } from "./ListDbMessage"
+import * as listReq from "./IterReq"
+import { IterDbMessage } from "./IterDbMessage"
 
-export type ListDbShellConfig = {
+export type IterDbShellConfig = {
     token: string,
     filepath?: string | null,
     fileDelay?: number
     unref?: boolean
 }
 
-export class ListDbShell {
-    private db: ListDb<any>
+export class IterDbShell {
+    private db: IterDb<any>
     private token: string
     private filePath: string | null
     private timer: NodeJS.Timeout | null = null
@@ -20,8 +20,8 @@ export class ListDbShell {
     private unref: boolean
 
     public constructor(
-        db: ListDb<any>,
-        config?: ListDbShellConfig
+        db: IterDb<any>,
+        config?: IterDbShellConfig
     ) {
         this.db = db
         this.token = config.token
@@ -49,7 +49,7 @@ export class ListDbShell {
 
     private checkAuth = (token: string): boolean => token === this.token
 
-    public handleMessage = (msg: ListDbMessage): void => {
+    public handleMessage = (msg: IterDbMessage): void => {
         try {
             const body = msg.getBody()
             if (!body) {

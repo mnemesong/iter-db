@@ -11,7 +11,7 @@ export const reqIterStruct = object({
 
 export type ReqIter = Infer<typeof reqIterStruct>
 
-export const reqBodyStruct = union([
+export const reqIterBodyStruct = union([
     object({
         authToken: string(),
         req: reqIterStruct
@@ -26,4 +26,4 @@ export const reqBodyStruct = union([
     })
 ])
 
-export type ReqBody = Infer<typeof reqBodyStruct>
+export type ReqIterBody = Infer<typeof reqIterBodyStruct>
