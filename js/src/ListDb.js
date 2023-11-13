@@ -48,6 +48,9 @@ var ListDb = /** @class */ (function () {
             var dataClone = __spreadArray([], _this.arr.arr, true);
             return JSON.stringify(dataClone);
         };
+        this.getAll = function () {
+            return __spreadArray([], _this.arr.arr, true);
+        };
         this.parseFromJson = function (json) {
             _this.clean();
             var data = JSON.parse(json);

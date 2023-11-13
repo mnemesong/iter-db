@@ -31,20 +31,21 @@ var ListDbMessage_1 = require("../src/ListDbMessage");
 var path = __importStar(require("path"));
 var fs = __importStar(require("fs"));
 (0, mocha_1.describe)("test file in list-db", function () {
-    var db = new ListDb_1.ListDb();
-    var filepath = path.resolve(module.path, "..", "..", "test.json");
-    var shell = new ListDbShell_1.ListDbShell(db, {
-        token: "7gx1827b",
-        filepath: filepath,
-        unref: true,
-        fileDelay: 1000
-    });
     (0, mocha_1.it)("test 1", function () {
+        var db = new ListDb_1.ListDb();
+        var filepath = path
+            .resolve(module.path, "..", "..", "test.json");
+        var shell = new ListDbShell_1.ListDbShell(db, {
+            token: "7gx1827b",
+            filepath: filepath,
+            unref: true,
+            fileDelay: 1000
+        });
         shell.handleMessage(new ListDbMessage_1.ListDbMessage({
             authToken: "7gx1827b",
             set: { v: 216318729 }
         }));
-        var t1 = setTimeout(function () {
+        setTimeout(function () {
             assert.deepEqual(JSON.parse(fs.readFileSync(filepath).toString()), [
                 { v: 216318729 }
             ]);
@@ -52,7 +53,7 @@ var fs = __importStar(require("fs"));
                 authToken: "7gx1827b",
                 set: { a: "7by821c4", b: ["873142h981", "841h9"] }
             }));
-            var t2 = setTimeout(function () {
+            setTimeout(function () {
                 assert.deepEqual(JSON.parse(fs.readFileSync(filepath).toString()), [
                     { v: 216318729 },
                     { a: "7by821c4", b: ["873142h981", "841h9"] }
@@ -60,5 +61,34 @@ var fs = __importStar(require("fs"));
                 fs.unlinkSync(filepath);
             }, 1500);
         }, 1500);
+    });
+    (0, mocha_1.it)("test 2", function () {
+        var db = new ListDb_1.ListDb();
+        var filepath = path
+            .resolve(module.path, "..", "..", "test2.json");
+        fs.writeFileSync(filepath, '[{"kasd": "asdyb8", "l": [213, 412]}]');
+        var shell = new ListDbShell_1.ListDbShell(db, {
+            token: "7gx1827b",
+            filepath: filepath,
+            unref: true,
+            fileDelay: 2000
+        });
+        assert.deepEqual(db.getAll(), [{ "kasd": "asdyb8", "l": [213, 412] }]);
+        shell.handleMessage(new ListDbMessage_1.ListDbMessage({
+            authToken: "7gx1827b",
+            set: { v: 216318729 }
+        }));
+        shell.handleMessage(new ListDbMessage_1.ListDbMessage({
+            authToken: "7gx1827b",
+            set: { a: "7by821c4", b: ["873142h981", "841h9"] }
+        }));
+        setTimeout(function () {
+            assert.deepEqual(JSON.parse(fs.readFileSync(filepath).toString()), [
+                { kasd: "asdyb8", l: [213, 412] },
+                { v: 216318729 },
+                { a: "7by821c4", b: ["873142h981", "841h9"] }
+            ]);
+            fs.unlinkSync(filepath);
+        }, 2500);
     });
 });

@@ -12,5 +12,6 @@ export declare class ListDb<A> {
     getIter: (id: string) => ListIter<A> | undefined;
     dropIter: (id: string) => void;
     serializeToJson: () => string;
+    getAll: () => A[];
     parseFromJson: (json: string) => void;
 }

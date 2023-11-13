@@ -45,6 +45,10 @@ export class ListDb<A> {
         return JSON.stringify(dataClone)
     }
 
+    public getAll = () => {
+        return [...this.arr.arr]
+    }
+
     public parseFromJson = (json: string): void => {
         this.clean()
         const data = JSON.parse(json)
