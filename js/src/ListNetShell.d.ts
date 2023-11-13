@@ -50,7 +50,10 @@ export type NetMessage = {
 export declare class ListNetShell {
     private db;
     private token;
-    constructor(db: ListDb<any>, token: string);
+    private filePath;
+    private timer;
+    private isWriting;
+    constructor(db: ListDb<any>, token: string, filepath?: string | null);
     private checkAuth;
     handleMessage: (msg: NetMessage) => void;
 }

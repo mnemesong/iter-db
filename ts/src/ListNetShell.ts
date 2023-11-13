@@ -1,4 +1,6 @@
+import { serialize } from "v8"
 import { ListDb } from "./ListDb"
+import * as fs from "fs"
 
 export type reqIter = {
     iter: string,
@@ -49,10 +51,24 @@ export type NetMessage = {
 export class ListNetShell {
     private db: ListDb<any>
     private token: string
+    private filePath: string | null
+    private timer: NodeJS.Timeout | null = null
+    private isWriting: boolean = false
 
-    public constructor(db: ListDb<any>, token: string) {
+    public constructor(db: ListDb<any>, token: string, filepath: string | null = null) {
         this.db = db
         this.token = token
+        if (this.filePath) {
+            const data = fs.readFileSync(filepath).toString()
+            db.parseFromJson(data)
+            this.timer = setInterval(() => {
+                if (!this.isWriting) {
+                    this.isWriting = true;
+                    fs.writeFileSync(filepath, db.serializeToJson())
+                    this.isWriting = false;
+                }
+            }, 3000)
+        }
     }
 
     private checkAuth = (token: string): boolean => token === this.token
@@ -75,10 +91,10 @@ export class ListNetShell {
                     msg.sendResponse({ error: "Iter is not exists" })
                     return
                 }
-                const reqKeys = Object.keys(req)
-                if (reqKeys.includes("batchNew") && (typeof req["batchNew"] === "number")) {
+                const reqKeys = Object.keys(req.req)
+                if (reqKeys.includes("batchNew") && (typeof req.req["batchNew"] === "number")) {
                     let result: { id: number, val: any }[] = []
-                    for (let i = 0; i < req["batchNew"]; i++) {
+                    for (let i = 0; i < req.req["batchNew"]; i++) {
                         if (iter.isFinish()) continue
                         if (iter.isReaded()) {
                             iter.next()
@@ -92,19 +108,15 @@ export class ListNetShell {
                     return
                 }
                 if (reqKeys.includes("oneNew")) {
+                    if (iter.isReaded()) {
+                        iter.next()
+                    }
                     if (iter.isFinish()) {
                         msg.sendResponse({ val: null })
                         return
                     }
-                    if (iter.isReaded()) {
-                        iter.next()
-                        if (iter.isFinish()) {
-                            msg.sendResponse({ val: null })
-                            return
-                        }
-                        msg.sendResponse({ val: { id: iter.num(), val: iter.read() } })
-                        return
-                    }
+                    msg.sendResponse({ val: { id: iter.num(), val: iter.read() } })
+                    return
                 }
                 if (reqKeys.includes("again")) {
                     if (iter.isFinish()) {
