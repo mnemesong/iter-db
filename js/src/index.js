@@ -23,13 +23,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.iterResp = exports.iterReq = exports.IterDbShell = exports.ListIter = exports.ListDbMessage = exports.ListDb = void 0;
+exports.iterResp = exports.iterReq = exports.IterDbShell = exports.IterIter = exports.IterDbMessage = exports.IterDb = void 0;
 var IterDb_1 = require("./IterDb");
-Object.defineProperty(exports, "ListDb", { enumerable: true, get: function () { return IterDb_1.IterDb; } });
+Object.defineProperty(exports, "IterDb", { enumerable: true, get: function () { return IterDb_1.IterDb; } });
 var IterDbMessage_1 = require("./IterDbMessage");
-Object.defineProperty(exports, "ListDbMessage", { enumerable: true, get: function () { return IterDbMessage_1.IterDbMessage; } });
+Object.defineProperty(exports, "IterDbMessage", { enumerable: true, get: function () { return IterDbMessage_1.IterDbMessage; } });
 var IterIter_1 = require("./IterIter");
-Object.defineProperty(exports, "ListIter", { enumerable: true, get: function () { return IterIter_1.IterIter; } });
+Object.defineProperty(exports, "IterIter", { enumerable: true, get: function () { return IterIter_1.IterIter; } });
 var IterDbShell_1 = require("./IterDbShell");
 Object.defineProperty(exports, "IterDbShell", { enumerable: true, get: function () { return IterDbShell_1.IterDbShell; } });
 exports.iterReq = __importStar(require("./IterReq"));
