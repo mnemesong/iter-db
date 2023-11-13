@@ -56,10 +56,12 @@ const shell = new IterDbShell(db, {
 })
 
 //message handling. See full list of messages in next paragraph
-shell.handleMessage(new IterDbMessage({
+const msg = new IterDbMessage({
     authToken: "7gx1827b",
     set: { v: 216318729 }
-}))
+})
+shell.handleMessage(msg)
+const response = msg.getResponse() //{id: 0} - id of new elem
 ```
 
 #### All request message types
