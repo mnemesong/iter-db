@@ -132,7 +132,7 @@ var NetMessageMock = /** @class */ (function () {
             assert.equal(db.getCount(), 2);
         });
     });
-    (0, mocha_1.describe)("test batcNew", function () {
+    (0, mocha_1.describe)("test batchNew", function () {
         (0, mocha_1.it)("test 1", function () {
             var db = new ListDb_1.ListDb();
             db.push({ v: 1234 });
@@ -184,6 +184,67 @@ var NetMessageMock = /** @class */ (function () {
                 vals: []
             });
             assert.equal(db.getCount(), 4);
+        });
+    });
+    (0, mocha_1.describe)("test again", function () {
+        (0, mocha_1.it)("test valid iter", function () {
+            var db = new ListDb_1.ListDb();
+            db.push({ v: 1234 });
+            db.push({ v: 74812 });
+            var iterId = db.regIter();
+            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
+            var msg1 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                req: { iter: iterId, req: { again: true } }
+            });
+            shell.handleMessage(msg1);
+            assert.deepEqual(msg1.getResponse(), {
+                val: {
+                    id: 0,
+                    val: { v: 1234 }
+                }
+            });
+            var msg2 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                req: { iter: iterId, req: { again: true } }
+            });
+            shell.handleMessage(msg2);
+            assert.deepEqual(msg2.getResponse(), {
+                val: {
+                    id: 0,
+                    val: { v: 1234 }
+                }
+            });
+            assert.equal(db.getCount(), 2);
+        });
+    });
+    (0, mocha_1.describe)("test reg", function () {
+        (0, mocha_1.it)("reg", function () {
+            var db = new ListDb_1.ListDb();
+            db.push({ v: 1234 });
+            db.push({ v: 74812 });
+            var shell = new ListNetShell_1.ListNetShell(db, "da7s8gdf");
+            var msg1 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                reg: true
+            });
+            shell.handleMessage(msg1);
+            var iter1 = msg1.getResponse().iter;
+            assert.ok(typeof iter1 === "string");
+            var msg2 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                reg: true
+            });
+            shell.handleMessage(msg2);
+            var iter2 = msg2.getResponse().iter;
+            assert.ok(typeof iter2 === "string");
+            assert.notEqual(iter1, iter2);
+            var msg3 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                req: { iter: iter2, req: { oneNew: true } }
+            });
+            shell.handleMessage(msg3);
+            assert.deepEqual(msg3.getResponse(), { val: { id: 0, val: { v: 1234 } } });
         });
     });
 });

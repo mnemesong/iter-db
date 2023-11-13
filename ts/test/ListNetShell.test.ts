@@ -119,7 +119,7 @@ describe("test ListNetShell", () => {
         })
     })
 
-    describe("test batcNew", () => {
+    describe("test batchNew", () => {
         it("test 1", () => {
             let db = new ListDb()
             db.push({ v: 1234 })
@@ -172,6 +172,69 @@ describe("test ListNetShell", () => {
                 ]
             })
             assert.equal(db.getCount(), 4)
+        })
+    })
+
+    describe("test again", () => {
+        it("test valid iter", () => {
+            let db = new ListDb()
+            db.push({ v: 1234 })
+            db.push({ v: 74812 })
+            let iterId = db.regIter()
+            let shell = new ListNetShell(db, "da7s8gdf")
+            let msg1 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                req: { iter: iterId, req: { again: true } }
+            })
+            shell.handleMessage(msg1)
+            assert.deepEqual(msg1.getResponse(), {
+                val: {
+                    id: 0,
+                    val: { v: 1234 }
+                }
+            })
+            let msg2 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                req: { iter: iterId, req: { again: true } }
+            })
+            shell.handleMessage(msg2)
+            assert.deepEqual(msg2.getResponse(), {
+                val: {
+                    id: 0,
+                    val: { v: 1234 }
+                }
+            })
+            assert.equal(db.getCount(), 2)
+        })
+    })
+
+    describe("test reg", () => {
+        it("reg", () => {
+            let db = new ListDb()
+            db.push({ v: 1234 })
+            db.push({ v: 74812 })
+            let shell = new ListNetShell(db, "da7s8gdf")
+            let msg1 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                reg: true
+            })
+            shell.handleMessage(msg1)
+            const iter1 = msg1.getResponse().iter
+            assert.ok(typeof iter1 === "string")
+            let msg2 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                reg: true
+            })
+            shell.handleMessage(msg2)
+            const iter2 = msg2.getResponse().iter
+            assert.ok(typeof iter2 === "string")
+            assert.notEqual(iter1, iter2)
+            let msg3 = new NetMessageMock({
+                authToken: "da7s8gdf",
+                req: { iter: iter2, req: { oneNew: true } }
+            })
+            shell.handleMessage(msg3)
+            assert.deepEqual(msg3.getResponse(), { val: { id: 0, val: { v: 1234 } } })
         })
     })
 })
